@@ -17,9 +17,11 @@ import edu.wpi.first.wpilibj2.command.Command;
  * subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
+  private final PhotonVision photon;
   // The robot's subsystems and commands are defined here...
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
+    photon = new PhotonVision();
     // Configure the button bindings
     configureButtonBindings();
   }
