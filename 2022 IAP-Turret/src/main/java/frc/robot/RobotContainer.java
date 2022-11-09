@@ -7,6 +7,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import frc.robot.commands.SpinToTarget;
 // import frc.robot.commands.*;
 import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -19,9 +20,13 @@ import edu.wpi.first.wpilibj2.command.Command;
  */
 public class RobotContainer {
   private final PhotonVision photon;
+  private final DriveTrain dt;
+
   public static Joystick joystick1;
   public static Joystick joystick2;
-  private final DriveTrain dt;
+
+  private final SpinToTarget spin;
+
   // The robot's subsystems and commands are defined here...
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -30,6 +35,8 @@ public class RobotContainer {
     joystick1 = new Joystick(Constants.USBOrder.Zero);
     joystick2 = new Joystick(Constants.USBOrder.One);
     dt = new DriveTrain();
+
+    spin = new SpinToTarget(dt, photon);
 
     // Configure the button bindings
     configureButtonBindings();
@@ -58,6 +65,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return null;
+    return spin;
   }
 }

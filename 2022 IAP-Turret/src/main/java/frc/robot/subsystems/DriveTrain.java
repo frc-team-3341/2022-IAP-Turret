@@ -29,9 +29,6 @@ public class DriveTrain extends SubsystemBase
 
   private AHRS navx = new AHRS(SPI.Port.kMXP);
 
-  private double DriveToLineDirection = 1.0;
-  private double DriveToLineOffset = 0.0;
-
   private ShuffleboardTab DTTab = Shuffleboard.getTab("DriveTrain");
   private NetworkTableEntry DTDisplacement = DTTab.add("Displacement", 0.0).getEntry();
   private NetworkTableEntry LeftVelocity = DTTab.add("Left Native Velocity", 0.0).getEntry();
@@ -74,14 +71,6 @@ public class DriveTrain extends SubsystemBase
 
   public double getDisplacement() {
     return (getTicks() / (Constants.DriveToLineConstants.ticksToMeters));
-  }
-
-  public double getDTLOffset() {
-    return DriveToLineOffset;
-  }
-
-  public double getDTLDirection() {
-    return DriveToLineDirection;
   }
 
   public double getTicks() {
