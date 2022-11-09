@@ -5,6 +5,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 // import frc.robot.commands.*;
 import frc.robot.subsystems.*;
@@ -18,12 +19,28 @@ import edu.wpi.first.wpilibj2.command.Command;
  */
 public class RobotContainer {
   private final PhotonVision photon;
+  public static Joystick joystick1;
+  public static Joystick joystick2;
+  private final DriveTrain dt;
   // The robot's subsystems and commands are defined here...
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     photon = new PhotonVision();
+
+    joystick1 = new Joystick(Constants.USBOrder.Zero);
+    joystick2 = new Joystick(Constants.USBOrder.One);
+    dt = new DriveTrain();
+
     // Configure the button bindings
     configureButtonBindings();
+  }
+
+  public static Joystick getJoy1() {
+    return joystick1;
+  }
+
+  public static Joystick getJoy2() {
+    return joystick2;
   }
 
   /**
