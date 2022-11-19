@@ -14,6 +14,7 @@ public class ProtoTurret extends CommandBase {
   public final PhotonVision photon;
   public final DriveTrain dt;
   public PIDController pid;
+  public boolean directionToggle;
 
   public ProtoTurret(DriveTrain dt, PhotonVision photon) {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -32,13 +33,19 @@ public class ProtoTurret extends CommandBase {
   @Override
   public void execute() {
     if (!photon.targetExists()) {
-      if (dt.getAngle() < 100) { // TODO - Test for direction!
+      if (dt.getAngle() >= 100) {
+        directionToggle = true;
+      }
+      if (dt.getAngle() <= 10) {
+        directionToggle = false;
+      }
+      if (directionToggle) { // TODO - Test for direction!
         // Mimics the hard-defined stops of the real Turret
-        // Goes to the right if angle is less than 100
-        dt.tankDrive(-0.2, 0.2);
-      } else if (dt.getAngle() > 10) {
-        // Goes to the left if angle is greater than 10
+        // Goes CW if angle is equal to/greater than 100
         dt.tankDrive(0.2, -0.2);
+      } else if (!directionToggle) {
+        // Goes CCW if angle is equal to or less than 10
+        dt.tankDrive(-0.2, 0.2);
       }
     }
     else if (photon.targetExists()) {
