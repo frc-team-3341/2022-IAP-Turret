@@ -7,6 +7,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import frc.robot.commands.ProtoTurret;
 import frc.robot.commands.SpinToTarget;
 // import frc.robot.commands.*;
 import frc.robot.subsystems.*;
@@ -26,6 +27,7 @@ public class RobotContainer {
   public static Joystick joystick2;
 
   private final SpinToTarget spin;
+  private final ProtoTurret proto;
 
   // The robot's subsystems and commands are defined here...
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -37,6 +39,7 @@ public class RobotContainer {
     dt = new DriveTrain();
 
     spin = new SpinToTarget(dt, photon);
+    proto = new ProtoTurret(dt, photon);
 
     // Configure the button bindings
     configureButtonBindings();
@@ -65,6 +68,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return spin;
+    return proto;
   }
 }

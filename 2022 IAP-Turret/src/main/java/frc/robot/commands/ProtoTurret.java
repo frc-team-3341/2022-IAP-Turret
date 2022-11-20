@@ -39,13 +39,13 @@ public class ProtoTurret extends CommandBase {
       if (dt.getAngle() <= 10) {
         directionToggle = false;
       }
-      if (directionToggle) { // TODO - Test for direction!
+      if (directionToggle) { // NOTE -  Directions are correct!
         // Mimics the hard-defined stops of the real Turret
         // Goes CW if angle is equal to/greater than 100
-        dt.tankDrive(0.2, -0.2);
+        dt.tankDrive(0.3, -0.3);
       } else if (!directionToggle) {
         // Goes CCW if angle is equal to or less than 10
-        dt.tankDrive(-0.2, 0.2);
+        dt.tankDrive(-0.3, 0.3);
       }
     }
     else if (photon.targetExists()) {

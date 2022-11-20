@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.util.net.PortForwarder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -25,8 +26,9 @@ public class PhotonVision extends SubsystemBase {
   private double skew;
 
   public PhotonVision() {
-    camera = new PhotonCamera("photonvision");
-    camera.setPipelineIndex(1);
+    camera = new PhotonCamera("Microsoft_LifeCam_HD-3000");
+    PortForwarder.add(5800, "photonvision", 5800);
+    camera.setPipelineIndex(0);
   }
 
   public boolean targetExists() {

@@ -96,6 +96,7 @@ public class DriveTrain extends SubsystemBase
     SmartDashboard.putNumber("Right Voltage", rightDriveTalon.getMotorOutputPercent());
     SmartDashboard.putNumber("Left Native Velocity", leftDriveTalon.getSelectedSensorVelocity());
     SmartDashboard.putNumber("Right Native Velocity", leftDriveTalon.getSelectedSensorVelocity());
+    SmartDashboard.putNumber("Angle", navx.getAngle());
 
     DTDisplacement.setDouble(getDisplacement());
     LeftVelocity.setDouble(leftDriveTalon.getSelectedSensorVelocity());
