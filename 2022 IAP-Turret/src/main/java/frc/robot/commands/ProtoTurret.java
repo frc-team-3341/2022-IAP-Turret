@@ -50,7 +50,7 @@ public class ProtoTurret extends CommandBase {
     }
     else if (photon.targetExists()) {
       if (dt.getAngle() < 100 | dt.getAngle() > 10) { // TODO - Test for direction! PID Constants!
-        double speed = pid.calculate(photon.getPitch()); // If it exists and within range, apply PID to the output
+        double speed = pid.calculate(photon.getYaw()); // If it exists and within range, apply PID to the output
         dt.tankDrive(-speed, speed);
       } else {
         dt.tankDrive(0.0, 0.0);
