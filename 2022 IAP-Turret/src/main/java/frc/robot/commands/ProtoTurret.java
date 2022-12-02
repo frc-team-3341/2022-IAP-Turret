@@ -36,7 +36,7 @@ public class ProtoTurret extends CommandBase {
       if (dt.getAngle() >= 100) {
         directionToggle = true;
       }
-      if (dt.getAngle() <= 10) {
+      if (dt.getAngle() <= -10) {
         directionToggle = false;
       }
       if (directionToggle) { // NOTE -  Directions are correct!

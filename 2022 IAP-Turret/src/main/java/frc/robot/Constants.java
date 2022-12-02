@@ -16,11 +16,23 @@ public final class Constants {
     public static final class DriveTrainPorts {
         public static final int LeftDriveTalonPort = 1; 
         public static final int RightDriveTalonPort = 2;
+        // For testing with the 2021 Competition Robot
         public static final int LeftDriveVictorPort = 4;
         public static final int RightDriveVictorPort = 5;
     }
+    /*
+    Usually, MotorPorts is used, shown from previous years
+    This is because there are other motors, rather than
+    the drivetrain.
+    */
+    public static final class MotorPorts { 
+        // Why 20? Because we may be testing this on a different
+        // chassis with port 4 taken - the finalized code should have
+        // port 4.
+        public static final int TurretPort = 20; 
+    }
 
-    public static final class DriveToLineConstants {
+    public static final class DriveTrainConstants {
         public static final double wheelDiameterInInches = 6.0;
         public static final double ticksToMeters = (1.0/(wheelDiameterInInches*0.0254*Math.PI))*4096.0;
     }

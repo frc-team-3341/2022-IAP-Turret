@@ -69,7 +69,7 @@ public class DriveTrain extends SubsystemBase
   }
 
   public double getDisplacement() {
-    return (getTicks() / (Constants.DriveToLineConstants.ticksToMeters));
+    return (getTicks() / (Constants.DriveTrainConstants.ticksToMeters));
   }
 
   public double getTicks() {
