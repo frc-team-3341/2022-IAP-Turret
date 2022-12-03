@@ -4,10 +4,12 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.util.net.PortForwarder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import org.photonvision.PhotonCamera;
+import org.photonvision.targeting.PhotonPipelineResult;
 import org.photonvision.targeting.PhotonTrackedTarget;
 
 public class PhotonVision extends SubsystemBase {
@@ -18,15 +20,16 @@ public class PhotonVision extends SubsystemBase {
   private final PhotonCamera camera;
   private PhotonTrackedTarget target;
 
-  private boolean hasTarget;
+  private boolean hasTarget = false;
   private double yaw;
   private double pitch;
   private double area;
   private double skew;
 
   public PhotonVision() {
-    camera = new PhotonCamera("photonvision");
-    camera.setPipelineIndex(1);
+    camera = new PhotonCamera("Microsoft_LifeCam_HD-3000");
+    camera.setPipelineIndex(0);
+    PortForwarder.add(5800,"photonvision.local", 5800);
   }
 
   public boolean targetExists() {
@@ -52,7 +55,7 @@ public class PhotonVision extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    var result = camera.getLatestResult();
+    PhotonPipelineResult result = camera.getLatestResult();
     hasTarget = result.hasTargets();
     if (hasTarget) {
       target = result.getBestTarget();
@@ -60,12 +63,14 @@ public class PhotonVision extends SubsystemBase {
       pitch = target.getPitch();
       area = target.getArea();
       skew = target.getSkew();
+
     }
 
     SmartDashboard.putNumber("Yaw", yaw);
     SmartDashboard.putNumber("Pitch", pitch);
     SmartDashboard.putNumber("Area", area);
     SmartDashboard.putNumber("Skew", skew);
+    SmartDashboard.putBoolean("Target Acquired", hasTarget);
 
   }
 }

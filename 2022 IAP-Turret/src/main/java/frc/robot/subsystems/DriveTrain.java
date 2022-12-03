@@ -6,8 +6,10 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.RobotContainer;
 
 public class DriveTrain extends SubsystemBase {
   /** Creates a new DriveTrain. */
@@ -28,8 +30,14 @@ rightDriveTalon.setInverted(true);
 
   @Override
   public void periodic() {
+    tankDrive(RobotContainer.GetJoy1().getY()*0.2, RobotContainer.GetJoy2().getY()*0.2); 
+    //Giving controls to the joysticks
+    SmartDashboard.putNumber("leftspeed", leftDriveTalon.get());
+    SmartDashboard.putNumber("rightspeed", rightDriveTalon.get());
     // This method will be called once per scheduler run
   }
+
+
 
 
 }

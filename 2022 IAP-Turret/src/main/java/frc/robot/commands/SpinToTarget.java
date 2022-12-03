@@ -16,7 +16,7 @@ public class SpinToTarget extends CommandBase {
 
    public SpinToTarget(DriveTrain dt, PhotonVision photon) {
      this.photon = photon; 
-     this.dt = dt;//dt = drive train, it's an object
+     this.dt = dt; //dt = drive train, it's an object, writing it here inializes it.
    
   }
 
@@ -27,7 +27,7 @@ public class SpinToTarget extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    dt.tankDrive(-0.2,0.2);
+    dt.tankDrive(-0.3,0.3); //You are calling the ovject drivetrain to perform its function and in this case it is tankDrive
   }
 
   // Called once the command ends or is interrupted.
