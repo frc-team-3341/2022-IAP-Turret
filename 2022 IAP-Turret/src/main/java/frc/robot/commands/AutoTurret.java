@@ -18,8 +18,8 @@ public class AutoTurret extends CommandBase {
   public boolean directionToggle;
   public boolean manualToggle = true;
   // The constant at which the limit switch returns a physically closed state
-  private double limitSwitchClosed = 1.0;
-  private double manualSwitchTime = 0.1;
+  private double limitSwitchClosed = 0.0; // 0 for normally closed
+  private double manualSwitchTime = 0.1; // Actual time in seconds to debouce the switch
   private Timer manualTimer;
 
   public AutoTurret(PhotonVision photon, Turret turret) {
@@ -34,6 +34,7 @@ public class AutoTurret extends CommandBase {
   @Override
   public void initialize() {
     turret.resetEncoders();
+    pid.setSetpoint(0.0);
     manualTimer.reset();
   }
 
@@ -49,7 +50,7 @@ public class AutoTurret extends CommandBase {
 
     if (manualToggle) {
       // Uses slow, manual control by default
-      turret.spin(-0.2*RobotContainer.getJoy1().getY());
+      turret.spin(-0.2*RobotContainer.getJoy1().getX());
     }
     if (!manualToggle) {
       // TODO - What if the target is in range, but

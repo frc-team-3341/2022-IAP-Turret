@@ -26,6 +26,7 @@ public class ProtoTurret extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    pid.setSetpoint(0.0);
     dt.resetN();
   }
 

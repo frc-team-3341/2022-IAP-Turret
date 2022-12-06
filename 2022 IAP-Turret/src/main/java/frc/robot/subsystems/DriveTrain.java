@@ -26,6 +26,7 @@ public class DriveTrain extends SubsystemBase
   private final WPI_TalonSRX leftDriveTalon;
   private final WPI_TalonSRX rightDriveTalon;
 
+  // Creates a 
   private AHRS navx = new AHRS(SPI.Port.kMXP);
 
   private ShuffleboardTab DTTab = Shuffleboard.getTab("DriveTrain");
