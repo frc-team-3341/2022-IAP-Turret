@@ -5,7 +5,9 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.kauailabs.navx.frc.AHRS;
 
+import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -15,12 +17,21 @@ public class DriveTrain extends SubsystemBase {
   /** Creates a new DriveTrain. */
   private final WPI_TalonSRX leftDriveTalon;
   private final WPI_TalonSRX rightDriveTalon;
+  private final AHRS navx = new AHRS(SPI.Port.kMXP);
   
   public DriveTrain() {
 leftDriveTalon = new WPI_TalonSRX(Constants.leftTalon);
 rightDriveTalon = new WPI_TalonSRX(Constants.rightTalon);
 leftDriveTalon.setInverted(false);
 rightDriveTalon.setInverted(true);
+  }
+
+  public double getAngle(){
+    return navx.getAngle();
+  }
+
+  public void reset(){
+    navx.reset();
   }
 
   public void tankDrive(double leftSpeed, double rightSpeed) {

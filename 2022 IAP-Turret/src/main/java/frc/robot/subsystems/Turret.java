@@ -43,11 +43,24 @@ public class Turret extends SubsystemBase {
   public void setAngle(double angle){
     motor.setSelectedSensorPosition(angle);
   }
+  
+  // Resets the place of sensor in ticks to 0
+  public void resetEncoders() {
+    motor.setSelectedSensorPosition(0);
+  }
 
   public double getAngle(){
     return motor.getSelectedSensorPosition() * 360 / (4096.0);
   }
-  
+
+  public double getCW_Forward_LimitSw() {
+    return motor.isFwdLimitSwitchClosed();
+  }
+
+  public double getCCW_Reverse_LimitSw() {
+    return motor.isRevLimitSwitchClosed();
+  }
+
   public void spin(double speed)
   {
     motor.set(ControlMode.PercentOutput, speed);
@@ -57,6 +70,10 @@ public class Turret extends SubsystemBase {
   public void periodic() {
     SmartDashboard.putNumber("Angle: ", getAngle());
     //SmartDashboard.putNumber("Joystick Power: ", RobotContainer.getJoy().getY());
+    SmartDashboard.putNumber("Angle: ", getAngle());
+    //Shows the current status of the limit switchs and shows what angle the chassis is at
+    SmartDashboard.putNumber("Forward Lim SW:", getCW_Forward_LimitSw());
+    SmartDashboard.putNumber("Reverse Lim SW:", getCCW_Reverse_LimitSw());
   }
 
 }

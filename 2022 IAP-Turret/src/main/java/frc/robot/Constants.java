@@ -18,6 +18,7 @@ public final class Constants {
 
     public static final class TurretConstants{
         public static final int talonPort = 4;
+        //Used to check how far the target should be in order for it to be "Locked on" (yaw)
         public static final double targetLockedWidth = 0.5;
     }
 }

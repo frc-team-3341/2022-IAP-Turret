@@ -26,20 +26,27 @@ public ProtoTurret(DriveTrain dt, PhotonVision photon) {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {/*
-    if (!photon.targetExists()) {
-      if (dt.getAngle() < 90) { 
-        // if angle is less than 90 it goes to the right
-        dt.tankDrive(-0.2, 0.2);
-      } else if (dt.getAngle() > 10) { 
-        // if angle is less than 10 it goes to the left
-        dt.tankDrive(0.2, -0.2);
-      }
-  }*/
+  public void initialize() {
 }
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    //All of this asks the camera if it sees the object and if not then it will turn right or left.
+    //If target found then I use PID to get an accurate location and then rotate to the target
+    if (!photon.targetExists()) {
+      if (dt.getAngle() >= 90) { 
+        // if angle is less than 90 it goes to the right
+        dt.tankDrive(-0.2, 0.2);
+      } else if (dt.getAngle() <= 10) { 
+        // if angle is less than 10 it goes to the left, this is because you're using an unit circle 
+        dt.tankDrive(0.2, -0.2);
+      } 
+  } else if (photon.targetExists()){
+    //This using PIDs calculates how far the center is to the target from yaw and then speed is set so it can precisely locate the target
+      double speed = pid.calculate(photon.getYaw());
+      dt.tankDrive(-speed, speed);
+    }
+  }
 
   // Called once the command ends or is interrupted.
   @Override

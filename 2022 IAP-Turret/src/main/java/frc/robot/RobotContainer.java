@@ -29,6 +29,7 @@ public class RobotContainer {
   private final PhotonVision photon = new PhotonVision();
   private final DriveTrain dt = new DriveTrain();
   private final SpinToTarget spin;
+  private final ProtoTurret proto;
   private static final Joystick joystick1 = new Joystick(0);
   private static final Joystick joystick2 = new Joystick(1);
   
@@ -36,6 +37,8 @@ public class RobotContainer {
   public RobotContainer() {
   
     spin = new SpinToTarget(dt, photon);
+    proto = new ProtoTurret(dt, photon);
+
     // Configure the button bindings
     configureButtonBindings();
   }
@@ -60,6 +63,6 @@ public static Joystick GetJoy2() {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return spin;
+    return proto;
   }
 }
