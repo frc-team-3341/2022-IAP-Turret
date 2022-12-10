@@ -17,36 +17,57 @@ public class AutoTurret extends CommandBase {
   public final PhotonVision photon;
   public final Turret turret;
   public PIDController pid;
+  public boolean direction;
   // States for limit switches (open or closed)
+  // 1 for the switch is not pressed so it's normally closed
+  // o for the switch is pressed
   private double LimitSwitchClosed = 0.0; // 0 for closed state 
-  private double LimitSwitchOpen = 1; // 1 for open state
 
   public AutoTurret(Turret turret, PhotonVision photon) {
     this.turret = turret; 
     // You don't need to get anything from the object turret because we already have it here. Use turret.wtv to get stuff
     this.photon = photon; 
-    pid = new PIDController(0.0, 0.0, 0.0);
+    pid = new PIDController(0.01142, 0.0, 0.0);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
     turret.resetEncoders();
+    pid.setSetpoint(0.0);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-  if (leftTalon.isFwdLimitSwitchClosed() == 0) { 
+    if (!photon.targetExists()) {
 
+// We are having limitswitchclosed because it is a closed circuit
+
+      if (turret.getCCW_Reverse_LimitSw() == LimitSwitchClosed) {
+         // True means the limit switch is hit
+         // in the reverse direction and will go CW
+        direction = true;
+      }
+
+      if (turret.getCW_Forward_LimitSw() == LimitSwitchClosed) {
+         // False means that it hit the limit switch
+         // in the forward direction and will go CCW
+        direction = false;
+      }
+
+      if (direction) { // NOTE - need to test direction
+        // Goes CW if reverse limit switch is hit
+        turret.spin(0.3);
+      } else if (!direction) { // NOTE - need to test direction
+        // Goes CCW if forward limit switch is hit
+        turret.spin(-0.3);
+      } else if(photon.targetExists() && (turret.getCCW_Reverse_LimitSw() == LimitSwitchClosed && turret.getCW_Forward_LimitSw() == LimitSwitchClosed)) {
+        double speed = pid.calculate(photon.getYaw()); // If it target exists and is within range it will apply PID to the output
+        turret.spin(speed); // Spins clockwise for positive yaw value
+      }
    }
-  if (rightTalon.isRevLimitSwitchClosed() == 0) {
-
-   }
-
-
-  }
-
+}
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {}
@@ -57,3 +78,4 @@ public class AutoTurret extends CommandBase {
     return false;
   }
 }
+

@@ -45,6 +45,7 @@ rightDriveTalon.setInverted(true);
     //Giving controls to the joysticks
     SmartDashboard.putNumber("leftspeed", leftDriveTalon.get());
     SmartDashboard.putNumber("rightspeed", rightDriveTalon.get());
+    SmartDashboard.putNumber("Navx angle", navx.getAngle());
     // This method will be called once per scheduler run
   }
 
