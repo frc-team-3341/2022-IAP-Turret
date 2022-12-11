@@ -22,7 +22,7 @@ public ProtoTurret(DriveTrain dt, PhotonVision photon) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.photon = photon;
     this.dt = dt;
-    pid = new PIDController(0.01, 0.0, 0.0);
+    pid = new PIDController(0.01, 0.0003, 0.001);
   }
 
   // Called when the command is initially scheduled.
@@ -37,19 +37,19 @@ public ProtoTurret(DriveTrain dt, PhotonVision photon) {
     //All of this asks the camera if it sees the object and if not then it will turn right or left.
     //If target found then I use PID to get an accurate location and then rotate to the target
     if (!photon.targetExists()) {
+      if (dt.getAngle() >= 100) { 
+        // if angle is less than 90 it goes to the right
+        directionToggle = true;
+      } if (dt.getAngle() <= -10) { 
+        // if angle is less than 10 it goes to the left, this is because you're using an unit circle 
+        directionToggle = false;
+      } 
       if (directionToggle) {
         dt.tankDrive(-0.2, 0.2);
       }
       if (!directionToggle) {
         dt.tankDrive(0.2, -0.2);
       }
-      if (dt.getAngle() >= 100) { 
-        // if angle is less than 90 it goes to the right
-        directionToggle = true;
-      } else if (dt.getAngle() <= -10) { 
-        // if angle is less than 10 it goes to the left, this is because you're using an unit circle 
-        directionToggle = false;
-      } 
   } else if (photon.targetExists()){
     //This using PIDs calculates how far the center is to the target from yaw and then speed is set so it can precisely locate the target
       double speed = pid.calculate(photon.getYaw());

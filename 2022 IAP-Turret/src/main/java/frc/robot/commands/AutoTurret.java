@@ -20,7 +20,7 @@ public class AutoTurret extends CommandBase {
   public boolean direction;
   // States for limit switches (open or closed)
   // 1 for the switch is not pressed so it's normally closed
-  // o for the switch is pressed
+  // 0 for the switch is pressed
   private double LimitSwitchClosed = 0.0; // 0 for closed state 
 
   public AutoTurret(Turret turret, PhotonVision photon) {
@@ -58,10 +58,12 @@ public class AutoTurret extends CommandBase {
 
       if (direction) { // NOTE - need to test direction
         // Goes CW if reverse limit switch is hit
-        turret.spin(0.3);
+        turret.spin(0.1);
+        
       } else if (!direction) { // NOTE - need to test direction
         // Goes CCW if forward limit switch is hit
-        turret.spin(-0.3);
+        turret.spin(-0.1);
+
       } else if(photon.targetExists() && (turret.getCCW_Reverse_LimitSw() == LimitSwitchClosed && turret.getCW_Forward_LimitSw() == LimitSwitchClosed)) {
         double speed = pid.calculate(photon.getYaw()); // If it target exists and is within range it will apply PID to the output
         turret.spin(speed); // Spins clockwise for positive yaw value
