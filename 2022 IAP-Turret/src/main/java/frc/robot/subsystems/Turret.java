@@ -19,12 +19,12 @@ public class Turret extends SubsystemBase {
   /** Creates a new Turret. */
   public Turret() {
     motor = new WPI_TalonSRX(Constants.MotorPorts.TurretPort);
-    motor.configFactoryDefault();
-    motor.setInverted(false);
+    motor.configFactoryDefault(); // Resets motor to defaults (normally open limit switches)
+    motor.setInverted(true);
     motor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute, 0, 10);
 
-    motor.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyClosed);
-    motor.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyClosed);
+    //motor.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyClosed);
+    //motor.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyClosed);
   }
 
   public void setAngle(double angle) {
@@ -38,7 +38,7 @@ public class Turret extends SubsystemBase {
   }
 
   public double getAngle() {
-    return motor.getSelectedSensorPosition() * 360 / (4096.0);
+    return (motor.getSelectedSensorPosition() * 360 / (4096.0)) /5.75; // 5.75 is our gear ratio
   }
 
   public double getCW_Forward_LimitSw() {
@@ -49,7 +49,7 @@ public class Turret extends SubsystemBase {
     return motor.isRevLimitSwitchClosed();
   }
 
-  public void spin(double speed){
+  public void spin(double speed) {
     motor.set(ControlMode.PercentOutput, speed);
   }
 

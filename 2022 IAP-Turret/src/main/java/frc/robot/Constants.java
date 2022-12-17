@@ -26,10 +26,7 @@ public final class Constants {
     the drivetrain.
     */
     public static final class MotorPorts { 
-        // Why 20? Because we may be testing this on a different
-        // chassis with port 4 taken - the finalized code should have
-        // port 4.
-        public static final int TurretPort = 20; 
+        public static final int TurretPort = 4; 
     }
 
     public static final class DriveTrainConstants {

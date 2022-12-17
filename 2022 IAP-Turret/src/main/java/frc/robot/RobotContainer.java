@@ -7,6 +7,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import frc.robot.commands.AutoTurret;
 import frc.robot.commands.ProtoTurret;
 import frc.robot.commands.SpinToTarget;
 // import frc.robot.commands.*;
@@ -21,13 +22,15 @@ import edu.wpi.first.wpilibj2.command.Command;
  */
 public class RobotContainer {
   private final PhotonVision photon;
-  private final DriveTrain dt;
+  //private final DriveTrain dt;
 
   public static Joystick joystick1;
   public static Joystick joystick2;
 
-  private final SpinToTarget spin;
-  private final ProtoTurret proto;
+  //private final SpinToTarget spin;
+  //private final ProtoTurret proto;
+  private final AutoTurret auto;
+  private final Turret turret;
 
   // The robot's subsystems and commands are defined here...
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -36,10 +39,13 @@ public class RobotContainer {
 
     joystick1 = new Joystick(Constants.USBOrder.Zero);
     joystick2 = new Joystick(Constants.USBOrder.One);
-    dt = new DriveTrain();
+    //dt = new DriveTrain();
+    turret = new Turret();
 
-    spin = new SpinToTarget(dt, photon);
-    proto = new ProtoTurret(dt, photon);
+    //spin = new SpinToTarget(dt, photon);
+    //proto = new ProtoTurret(dt, photon);
+    auto = new AutoTurret(photon, turret);
+    turret.setDefaultCommand(auto);
 
     // Configure the button bindings
     configureButtonBindings();
@@ -68,6 +74,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return proto;
+    return null;
   }
 }

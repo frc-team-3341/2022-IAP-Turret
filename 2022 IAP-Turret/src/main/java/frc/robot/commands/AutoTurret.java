@@ -27,7 +27,8 @@ public class AutoTurret extends CommandBase {
     this.photon = photon;
     this.turret = turret;
     manualTimer = new Timer();
-    pid = new PIDController(0.0, 0.0, 0.0);
+    pid = new PIDController(0.008, 0.0, 0.0);
+    addRequirements(photon, turret);
   }
 
   // Called when the command is initially scheduled.
@@ -35,7 +36,6 @@ public class AutoTurret extends CommandBase {
   public void initialize() {
     turret.resetEncoders();
     pid.setSetpoint(0.0);
-    manualTimer.reset();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -43,13 +43,13 @@ public class AutoTurret extends CommandBase {
   public void execute() {
     // When the trigger button is pressed, switch from manual to auto
     // It uses a timer to "debounce" the button
-    if (RobotContainer.getJoy1().getRawButton(1) && manualTimer.get() >= manualSwitchTime) {
+    if (RobotContainer.getJoy1().getRawButtonReleased(1)) {
       manualToggle = !manualToggle;
-      manualTimer.reset();
     }
 
     if (manualToggle) {
       // Uses slow, manual control by default
+      // Gets the X axis of the joystick
       turret.spin(-0.2*RobotContainer.getJoy1().getX());
     }
     if (!manualToggle) {
@@ -57,13 +57,13 @@ public class AutoTurret extends CommandBase {
       // the turret can't spin there?
       if (!photon.targetExists()) {
 
-        if (turret.getCCW_Reverse_LimitSw() == limitSwitchClosed) {
+        if (turret.getAngle() > 35) {
            // "True" means that it hit the limit switch
            // in the reverse direction, and will be going CW.
           directionToggle = true;
         }
 
-        if (turret.getCW_Forward_LimitSw() == limitSwitchClosed) {
+        if (turret.getAngle() < -35) {
            // "False" means that it hit the limit switch
            // in the forward direction, and will be going CCW.
           directionToggle = false;
@@ -71,17 +71,18 @@ public class AutoTurret extends CommandBase {
 
         if (directionToggle) { // NOTE - Need to test directions
           // Goes CW if hitting the reverse limit switch
-          turret.spin(0.3);
+          turret.spin(-0.1);
         } else if (!directionToggle) { // NOTE - Need to test directions
           // Goes CCW if hitting the forward limit switch
-          turret.spin(-0.3);
+          turret.spin(0.1);
         }
 
       // NOTE - Does nothing if the target exists, but the limit switches are hit.
       // This is a placeholder then for safety
-      } else if (photon.targetExists() && !(turret.getCCW_Reverse_LimitSw() == limitSwitchClosed | turret.getCW_Forward_LimitSw() == limitSwitchClosed)) {
+      //} else if (photon.targetExists() && !(turret.getAngle() > 100 | turret.getAngle() < -10)) {
+      } else if (photon.targetExists()) {
         double speed = pid.calculate(photon.getYaw()); // If it exists and within range, apply PID to the output
-        turret.spin(speed); // Should spin clockwise for positive Yaw value
+        turret.spin(-speed); // Should spin clockwise for positive Yaw value
       } else {
         turret.spin(0.0); // Disables motor if above conditions aren't met
       }
