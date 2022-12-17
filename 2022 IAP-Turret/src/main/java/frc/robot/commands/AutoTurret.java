@@ -44,15 +44,15 @@ public class AutoTurret extends CommandBase {
 
 // We are having limitswitchclosed because it is a closed circuit
 
-      if (turret.getCCW_Reverse_LimitSw() == LimitSwitchClosed) {
+      if (turret.getAngle() <= 100) {
          // True means the limit switch is hit
          // in the reverse direction and will go CW
         direction = true;
       }
 
-      if (turret.getCW_Forward_LimitSw() == LimitSwitchClosed) {
+      if (turret.getAngle() >= -10) {
          // False means that it hit the limit switch
-         // in the forward direction and will go CCW
+         // in the direction and will go CCW
         direction = false;
       }
 
