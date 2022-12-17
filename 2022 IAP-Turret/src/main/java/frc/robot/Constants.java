@@ -12,4 +12,13 @@ package frc.robot;
  * <p>It is advised to statically import this class (or one of its inner classes) wherever the
  * constants are needed, to reduce verbosity.
  */
-public final class Constants {}
+public final class Constants {
+    public static final int leftTalon = 1;
+    public static final int rightTalon = 2;
+
+    public static final class TurretConstants{
+        public static final int talonPort = 4;
+        //Used to check how far the target should be in order for it to be "Locked on" (yaw)
+        public static final double targetLockedWidth = 0.5;
+    }
+}
