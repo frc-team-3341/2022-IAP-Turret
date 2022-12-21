@@ -41,6 +41,7 @@ public class RobotContainer {
     joystick2 = new Joystick(Constants.USBOrder.One);
     //dt = new DriveTrain();
     turret = new Turret();
+    turret.resetEncoders();
 
     //spin = new SpinToTarget(dt, photon);
     //proto = new ProtoTurret(dt, photon);

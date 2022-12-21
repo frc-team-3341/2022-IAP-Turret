@@ -20,8 +20,8 @@ public class Turret extends SubsystemBase {
   public Turret() {
     motor = new WPI_TalonSRX(Constants.MotorPorts.TurretPort);
     motor.configFactoryDefault(); // Resets motor to defaults (normally open limit switches)
-    motor.setInverted(true);
-    motor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute, 0, 10);
+    motor.setInverted(false);
+    motor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 10);
 
     //motor.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyClosed);
     //motor.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyClosed);
@@ -38,7 +38,7 @@ public class Turret extends SubsystemBase {
   }
 
   public double getAngle() {
-    return (motor.getSelectedSensorPosition() * 360 / (4096.0)) /5.75; // 5.75 is our gear ratio
+    return (motor.getSelectedSensorPosition() * 360.0 / (4096.0)) *(4.0/23.5); // 5.75 is our gear ratio
   }
 
   public double getCW_Forward_LimitSw() {
@@ -56,6 +56,7 @@ public class Turret extends SubsystemBase {
   @Override
   public void periodic() {
     SmartDashboard.putNumber("Angle: ", getAngle());
+    SmartDashboard.putNumber("Angle Raw: ", motor.getSelectedSensorPosition());
     // Shows limit switch status on SmartDashboard
     // We need to adjust our logic to align with the readings/testing 
     // of the limit switches.
